@@ -75,7 +75,6 @@ const Home: React.FC = () => {
   }, []);
 
   const handleSwipe = (info: Info, cat: Cat) => {
-    console.log(info)
     setIsSwiping(false);
     const direction = info.offset.x > 0 ? 'right' : 'left';
     if (Math.abs(info.offset.x) > 100) {
@@ -115,13 +114,18 @@ const Home: React.FC = () => {
   };
 
   if (showSummary) {
+    const allTags = Array.from(
+      new Set(likedCats.flatMap(cat => cat.tags))
+    ).filter(Boolean); // Remove empty strings if any
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 px-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full flex flex-col items-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-2 text-center">Your Cat Preferences</h1>
-          <p className="text-gray-500 mb-6 text-center">
+          <p className="text-gray-500 mb-2 text-center">
             You liked <span className="font-semibold">{likedCats.length}</span> out of {CAT_COUNT} cats!
           </p>
+
           <div className="grid grid-cols-3 gap-3 w-full mb-6">
             {likedCats.length > 0 ? (
               likedCats.map((cat) => (
@@ -138,6 +142,18 @@ const Home: React.FC = () => {
               <p className="col-span-3 text-center text-gray-400">No cats liked. Try again!</p>
             )}
           </div>
+          {allTags.length > 0 && (
+            <div className="mb-4 text-center">
+              <span className="text-gray-500">Your cat preferences are:</span>
+              <div className="flex flex-wrap gap-2 justify-center mt-2">
+                {allTags.map((tag, index) => (
+                  <span key={index} className="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
           <button
             onClick={() => window.location.reload()}
             className="mt-2 px-6 py-2 bg-gray-800 text-white rounded-full font-semibold shadow hover:bg-gray-700 transition"
