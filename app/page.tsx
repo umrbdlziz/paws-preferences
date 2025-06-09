@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import axios from 'axios';
+import Image from 'next/image';
 
 // Define a type for a Cat object
 interface Cat {
@@ -10,6 +11,26 @@ interface Cat {
   tags: string[];
   createdAt: string;
   mimeType: string;
+}
+
+// Define a type for an info object
+interface Info {
+  offset: {
+    x: number;
+    y: number;
+  },
+  delta: {
+    x: number;
+    y: number;
+  },
+  velocity: {
+    x: number;
+    y: number;
+  },
+  point: {
+    x: number;
+    y: number;
+  }
 }
 
 const CAT_COUNT = 15; // A fixed number of cat pictures (e.g., 10-20)
@@ -53,7 +74,8 @@ const Home: React.FC = () => {
     fetchCats();
   }, []);
 
-  const handleSwipe = (info: any, cat: Cat) => {
+  const handleSwipe = (info: Info, cat: Cat) => {
+    console.log(info)
     setIsSwiping(false);
     const direction = info.offset.x > 0 ? 'right' : 'left';
     if (Math.abs(info.offset.x) > 100) {
@@ -103,11 +125,13 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-3 gap-3 w-full mb-6">
             {likedCats.length > 0 ? (
               likedCats.map((cat) => (
-                <img
+                <Image
                   key={cat.id}
                   src={cat.url}
                   alt="Liked Cat"
                   className="w-full h-24 object-cover rounded-lg shadow"
+                  width={100}
+                  height={100}
                 />
               ))
             ) : (
@@ -132,7 +156,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 px-4">
       <div className="w-full max-w-xs flex flex-col items-center">
         <h1 className="text-2xl font-bold text-gray-800 mb-2 text-center">Paws & Preferences</h1>
-        <p className="text-gray-500 mb-4 text-center">Swipe right if you like the kitty, left if you don't!</p>
+        <p className="text-gray-500 mb-4 text-center">Swipe right if you like the kitty, left if you don&apos;t!</p>
         <div className="relative w-full h-[400px] flex justify-center items-center mb-4">
 
           {/* Main Current Cat Card */}
