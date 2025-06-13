@@ -51,6 +51,9 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 - Edit `app/page.tsx` to change the number of cats, UI, or logic.
 - Uses Tailwind CSS for styling and Framer Motion for animation.
 
+## Deployment
+https://umrbdlziz.github.io/paws-preferences/
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
